@@ -46,8 +46,8 @@ POST: `http://0.0.0.0/3210/payapi/v2/orders`
 | returnurl | String(128) | 可选 | 使用平台页面支付完成后会调转到此页面|
 | goosname | String(32) | 可选 | 消费商品的名称，不填平台会默认设置一个商品名称"1.00元"|
 | extra | String(64)| 可选 | 透传信息，支付完成后会将此信息透传给商户|
-| sign |  | 必填 | 对参数签名数据 |
-| signtype | | 必填 | 签名算法类型，目前仅支持"md5"|
+| sign | String(32) | 必填 | 对参数签名数据 |
+| signtype | String(32) | 必填 | 签名算法类型，目前仅支持"md5"|
 
 sign 加密示例:
 params = 参数以ASCII升序排列并以`&`拼接
@@ -94,8 +94,8 @@ POST: notifyurl
 | currency | String(32) | 必填 | 货币类型，目前仅支持人民币: "RMB"|
 | extra | String(64)| 可选 | 透传信息，支付完成后会将此信息透传给商户|
 | status | String(2) | 必填 | 交易结果, 1:未支付; 2: 已支付 |
-| sign |  | 必填 | 对参数签名数据 |
-| signtype | | 必填 | 签名算法类型，目前仅支持"md5"|
+| sign | String(32) | 必填 | 对参数签名数据 |
+| signtype | String(32) | 必填 | 签名算法类型，目前仅支持"md5"|
 
 #### Response: 
 ``` js
@@ -118,10 +118,10 @@ POST: `http://0.0.0.0/3210/payapi/v2/query`
 | 参数名称 | 类型 | 是否可选 | 说明 |
 | -- | -- | -- | -- |  
 | uid | Integer |必填 | 平台分配的商户编号 |
-| key | String(32) |  在下单时，平台返回的key|
+| key | String(32) | 必填 | 在下单时，平台返回的key|
 | orderid | String(32) | 必填 | 商户订单号|
-| sign |  | 必填 | 对参数签名数据 |
-| signtype | | 必填 | 签名算法类型，目前仅支持"md5"|
+| sign | String(32) | 必填 | 对参数签名数据 |
+| signtype | String(32) | 必填 | 签名算法类型，目前仅支持"md5"|
 
 #### Response:
 
