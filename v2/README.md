@@ -50,9 +50,9 @@ POST: `http://0.0.0.0/3210/payapi/v2/orders`
 | sign | String(32) | 必填 | 对参数签名数据 |
 | signtype | String(32) | 必填 | 签名算法类型，目前仅支持"md5"|
 
-sign 加密示例:
-params = 参数以ASCII升序排列并以`&`拼接
-sign = md5(params + secret)
+sign 加密示例:  
+params = 参数以ASCII升序排列并以`&`拼接  
+sign = md5(params + secret)  
 
 ##### Response:
 
@@ -63,7 +63,7 @@ sign = md5(params + secret)
     "msg": "success",
     "data":{
         "transid": "201801",    // 交易流水号
-        "key" : "abcdef",       // 订单有效性验证，主动查询订单时需要传回此参数
+        "key" : "abcdef",       // 订单有效性验证,主动查询订单时需要传回此参数
         "url" : "HTTP://",      // 实际支付地址
         "sign": "abcdefg",      // 签名
         "signtype": "md5"       // 签名算法类型
