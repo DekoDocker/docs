@@ -40,19 +40,18 @@ POST: `http://0.0.0.0/3210/payapi/v2/orders`
 | -- | -- | -- | -- |  
 | uid | Integer |必填 | 平台分配的商户编号 |
 | orderid | String(32) | 必填 | 商户生成的订单号需要保证系统唯一平台分配的商户编号 |
+| orderuid | String(32) | 选填 | 商户的用户ID，显示在商户后台中，方便对账|
 | price | Integer | 必填 | 支付金额，单位(分) |
-| payment | Integer | 必填 | 支付通道。 100:支付宝; 200:微信 |
-| currency | String(32) | 必填 | 货币类型，目前仅支持人民币: "RMB"|
+| paytype| Integer | 必填 | 支付通道。 100:支付宝; 200:微信 |
 | notifyurl | String(128) | 必填 | 商户服务端接收支付结果通知地址 |
 | returnurl | String(128) | 可选 | 使用平台页面支付完成后会调转到此页面|
 | goosname | String(32) | 可选 | 消费商品的名称，不填平台会默认设置一个商品名称"1.00元"|
 | extra | String(64)| 可选 | 透传信息，支付完成后会将此信息透传给商户|
-| sign | String(32) | 必填 | 对参数签名数据 |
-| signtype | String(32) | 必填 | 签名算法类型，目前仅支持"md5"|
+| key | String(32) | 必填 | 对参数签名数据.|
 
-sign 加密示例:  
+key 加密示例:  
 params = 参数以ASCII升序排列并以`&`拼接  
-sign = md5(params + secret)  
+key = md5(params + secret)  
 
 ##### Response:
 
@@ -62,17 +61,24 @@ sign = md5(params + secret)
     "code": "1", 
     "msg": "success",
     "data":{
-        "transid": "201801",    // 交易流水号
-        "key" : "abcdef",       // 订单有效性验证,主动查询订单时需要传回此参数
-        "url" : "HTTP://",      // 实际支付地址
-        "sign": "abcdefg",      // 签名
-        "signtype": "md5"       // 签名算法类型
+        "result": {
+            "transid": "180802154912355", // 交易流水号
+            "orderid": "123456",          // 商户订单号
+            "qrurl": "http://0.0.0.0:3332/201807311215587540.png", // 二维码地址
+            "paytype": "200",             // 支付类型
+            "price": "1000",               // 金额
+            "url": "http://0.0.0.0/wap/pay/6a3757876353bca37acae9c4faa6958e/22c068a6ef800f6b5416b10c2c982cd6",
+            "goodsname": "rmb",             // 商品名称
+            "transtime": "2018-08-02 15:49:12"  // 订单生成时间
+        }
     }
 }
 // FAIL
 {
     "code":"-18",
-    "msg" :"商户key 验证失败"
+    "msg" :"商户key 验证失败",
+    "err_msg":"Error:Field validation for 'NotifyURL'",
+    "data": {}
 }
 ```
 
@@ -86,17 +92,16 @@ POST: notifyurl
 
 | 参数名称 | 类型 | 是否可选 | 说明 |
 | -- | -- | -- | -- |  
-| uid | Integer |必填 | 平台分配的商户编号 |
+| uid | String(32) |必填 | 平台分配的商户编号 |
 | orderid | String(32) | 必填 | 商户生成的订单号需要保证系统唯一平台分配的商户编号 |
 | transid| String(32) | 必填 | 平台订单流水号|
 | transtime| String(32) | 必填 | 交易完成时间，时间戳(秒)|
-| price | Integer | 必填 | 本次交易的金额，请严格匹配金额是否与订单金额一致 |
-| payment | Integer | 必填 | 支付通道。 100:支付宝; 200:微信 |
-| currency | String(32) | 必填 | 货币类型，目前仅支持人民币: "RMB"|
+| price | String(20) | 必填 | 本次交易的金额，请严格匹配金额是否与订单金额一致 |
+| paytype | String(3)| 必填 | 支付通道。 100:支付宝; 200:微信 |
 | extra | String(64)| 可选 | 透传信息，支付完成后会将此信息透传给商户|
 | status | String(2) | 必填 | 交易结果, 1:未支付; 2: 已支付 |
-| sign | String(32) | 必填 | 对参数签名数据 |
-| signtype | String(32) | 必填 | 签名算法类型，目前仅支持"md5"|
+| key | String(32) | 必填 | 对参数签名数据 |
+| version | String(32) | 必填 | 版本号，商户根据版本号处理不同版本的回调(2)|
 
 #### Response: 
 ``` js
@@ -118,11 +123,9 @@ POST: `http://0.0.0.0/3210/payapi/v2/query`
 
 | 参数名称 | 类型 | 是否可选 | 说明 |
 | -- | -- | -- | -- |  
-| uid | Integer |必填 | 平台分配的商户编号 |
-| key | String(32) | 必填 | 在下单时，平台返回的key|
-| orderid | String(32) | 必填 | 商户订单号|
-| sign | String(32) | 必填 | 对参数签名数据 |
-| signtype | String(32) | 必填 | 签名算法类型，目前仅支持"md5"|
+| uid | String(32) |必填 | 平台分配的商户编号 |
+| transid | String(32) | 必填| 平台流水单号|
+| key | String(32) | 必填 | 对参数签名数据 |
 
 #### Response:
 
@@ -132,17 +135,12 @@ POST: `http://0.0.0.0/3210/payapi/v2/query`
     "code": "1", 
     "msg": "success",
     "data":{
-        "uid" : "123456",
-        "orderid": "",
         "transid": "201801",    // 交易流水号
-        "transtime":"",         // 交易完成时间，时间戳(秒)
-        "price":"",             // 本次交易的金额，请严格匹配金额是否与订单金额一致
-        "payment":"100",        // 支付通道。 100:支付宝; 200:微信 
-        "currency":"RMB",       // 货币类型
-        "extra":"",             // 透传信息，支付完成后会将此信息透传给商户 
+        "orderid": "123456",          // 商户订单号
+        "price":"100",             // 本次交易的金额，请严格匹配金额是否与订单金额一致
+        "paytype":"100",        // 支付通道。 100:支付宝; 200:微信 
         "status":"2",           // 交易结果, 1:未支付; 2: 已支付
-        "sign": "abcdefg",      // 签名
-        "signtype": "md5"       // 签名算法类型
+        "transtime":"",         // 交易时间
     }
 }
 // FAIL
