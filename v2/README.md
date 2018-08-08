@@ -85,7 +85,8 @@ key = md5(params + secret)
 
 
 ### 交易结果回调通知
-用户完成支付后，平台使用商户在下单接口中传入的`notifyurl`,向商户发送支付结果。
+用户完成支付后，平台使用商户在下单接口中传入的`notifyurl`,向商户发送支付结果。  
+回调结果至少会发送1次, 如调用商户接口失败，会在第 `10`秒 及 第`30` 秒再次调用两次。
 
 #### Request:
 POST: notifyurl
@@ -106,11 +107,9 @@ POST: notifyurl
 #### Response: 
 ``` js
 //SUCCESS
+商户成功接收到支付结果通知之后，http body 数据为 `SUCCESS`  
 
-返回数据为 success
-
-//FAIL
-返回数据不为 success
+若返回数据非`SUCCESS`，则视为失败
 
 ```
 
