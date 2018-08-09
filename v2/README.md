@@ -64,10 +64,9 @@ key = md5(params + secret)
         "result": {
             "transid": "180802154912355", // 交易流水号
             "orderid": "123456",          // 商户订单号
-            "qrurl": "http://0.0.0.0:3332/201807311215587540.png", // 二维码地址
             "paytype": "200",             // 支付类型
             "price": "1000",               // 金额
-            "url": "http://0.0.0.0/wap/pay/6a3757876353bca37acae9c4faa6958e/22c068a6ef800f6b5416b10c2c982cd6",
+            "url": "http://0.0.0.0/wap/pay/6a3757876353bca37acae9c4faa6958e/22c068a6ef800f6b5416b10c2c982cd6",  // H5订单页面
             "goodsname": "rmb",             // 商品名称
             "transtime": "2018-08-02 15:49:12"  // 订单生成时间
         }
