@@ -38,11 +38,11 @@ POST: `http://0.0.0.0/3210/payapi/v2/orders`
 
 | 参数名称 | 类型 | 是否可选 | 说明 |
 | -- | -- | -- | -- |  
-| uid | Integer |必填 | 平台分配的商户编号 |
+| uid |  String(32) |必填 | 平台分配的商户编号 |
 | orderid | String(32) | 必填 | 商户生成的订单号需要保证系统唯一平台分配的商户编号 |
 | orderuid | String(32) | 选填 | 商户的用户ID，显示在商户后台中，方便对账|
-| price | Integer | 必填 | 支付金额，单位(分) |
-| paytype| Integer | 必填 | 支付通道。 100:支付宝; 200:微信 |
+| price |  String(20) | 必填 | 支付金额，单位(分) |
+| paytype|  String(3) | 必填 | 支付通道。 100:支付宝; 200:微信 |
 | notifyurl | String(128) | 必填 | 商户服务端接收支付结果通知地址 |
 | returnurl | String(128) | 可选 | 使用平台页面支付完成后会调转到此页面|
 | goosname | String(32) | 可选 | 消费商品的名称，不填平台会默认设置一个商品名称"1.00元"|
