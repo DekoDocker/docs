@@ -1,6 +1,6 @@
 # 2.0 接入指南
 
-> 修订中
+> 2018-08-27 更新下单接口
 
 ## 一、 接入流程  
 
@@ -59,18 +59,24 @@ key = md5(params + secret)
 {
     "code": "1", 
     "msg": "success",
+    "err_msg": "no msg",
     "data":{
         "result": {
             "transid": "180802154912355", // 交易流水号
             "orderid": "123456",          // 商户订单号
             "paytype": "200",             // 支付类型
             "price": "1000",               // 金额
-            "url": "http://0.0.0.0/wap/pay/6a3757876353bca37acae9c4faa6958e/22c068a6ef800f6b5416b10c2c982cd6",  // H5订单页面
+            "url": "http://0.0.0.0/wap/pay/6a3757876353bca37acae9c4faa6958e/22c068a6ef800f6b5416b10c2c982cd6",  // 拉起APP链接
+            "qrurl": "http://0.0.0.0/wap/pay/6a3757876353bca37acae9c4faa6958e/22c068a6ef800f6b5416b10c2c982cd6",  // 二维码H5订单页面
             "goodsname": "rmb",             // 商品名称
             "transtime": "2018-08-02 15:49:12"  // 订单生成时间
         }
     }
+    // url 与 qrurl 区别
+    // qrurl 为二维码H5的通用地址， 微信及支付宝都可使用此地址完成支付功能。(适用于 PC，mobile)
+    // url 为支付解析地址， 支付宝可通过解析地址直接拉起手机内的支付宝APP完成支付， 微信暂不支持此功能返回的仍然是H5支付页面。(仅适用于 mobile)
 }
+
 // FAIL
 {
     "code":"-18",
@@ -131,6 +137,7 @@ POST: `http://0.0.0.0/3210/payapi/v2/query`
 {
     "code": "1", 
     "msg": "success",
+    "errt_msg": "no msg",
     "data":{
          "result": {
             "transid": "201801",    // 交易流水号
