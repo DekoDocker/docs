@@ -75,6 +75,7 @@ key = md5(params + secret)
     // url 与 qrurl 区别
     // qrurl 为二维码H5的通用地址,微信及支付宝都可使用此地址完成支付功能。(适用于 PC，mobile)
     // url 为支付解析地址， 支付宝可通过解析地址直接拉起手机内的支付宝APP完成支付， 微信暂不支持此功能返回的仍然是H5支付页面。(仅适用于 mobile)
+    // url 参数使用时需要 UrlDecode 解码
 }
 
 // FAIL
