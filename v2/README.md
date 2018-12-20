@@ -33,7 +33,7 @@
 
 ##### Request:
 
-POST: `http://0.0.0.0/3210/payapi/v2/orders`  
+POST: `http://0.0.0.0:3210/payapi/v2/orders`  
 
 | 参数名称 | 类型 | 是否可选 | 说明 |
 | -- | -- | -- | -- |  
@@ -123,7 +123,7 @@ POST: notifyurl
 
 ##### Request:
 
-POST: `http://0.0.0.0/3210/payapi/v2/query`  
+POST: `http://0.0.0.0:3210/payapi/v2/query`  
 
 | 参数名称 | 类型 | 是否可选 | 说明 |
 | -- | -- | -- | -- |  
